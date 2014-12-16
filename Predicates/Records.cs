@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -72,6 +73,8 @@ namespace Predicates
 
         public class Record
         {
+            [Key]
+            
             public int Id { get; set; }
             public string Artist { get; set; }
             public string Title { get; set; }
