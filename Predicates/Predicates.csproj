@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cars.cs" />
+    <Compile Include="GetByPredicate.cs" />
+    <Compile Include="IGetByPredicate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Records.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

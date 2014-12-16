@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,83 +13,30 @@ namespace Predicates
     {
         static void Main(string[] args)
         {
-            CarCollection myCollection = new CarCollection();
             string t = "Mercedes";
-            Expression<Func<Car, bool>> predicate = (p) => p.Make == t;
-            CarService.GetCarById(predicate).ToList().ForEach(p=>Console.WriteLine(p.Model));
-            //myCollection.GetCars().AsQueryable<Car>().Where(predicate).ToList().ForEach(p => Console.WriteLine(p.Model));
+            Expression<Func<Predicates.Cars.Car, bool>> predicate = (p) => p.Make == t;
+            RetrieveAndPrintList(predicate, new Cars.CarCollection());
             Console.Read();
 
+            t = "Keith";
+            TimeSpan ts = new TimeSpan(0, 30, 0);
+            Expression<Func<Predicates.Records.Record, bool>> predicate1 = (p) => p.Artist.Contains("Keith");
+            RetrieveAndPrintList(predicate1, new Records());
+            Console.Read();
+            Console.Read();
+
+            
+
+
+
+        }
+
+        private static void RetrieveAndPrintList<T>(Expression<Func<T, bool>> predicate, IGetByPredicate<T> collection) where T: class
+        {
+            collection.GetResultByPredicate(predicate).ToList().ForEach(p => Console.WriteLine(
+              
+                    p.ToString()));
+                }
         }
 
     }
-    public class Car
-    {
-        public string Make { get; set; }
-        public string Model { get; set; }
-
-
-    }
-
-    public class CarService
-    {
-        public static IEnumerable<Car> GetCarById(Expression<Func<Car, bool>> predicate)
-        {
-            CarCollection collection = new CarCollection();
-            return collection.AsQueryable().Where(predicate).ToList();
-        }
-    }
-
-    public class CarCollection : IEnumerable<Car>
-    {
-        List<Car> Cars = new List<Car>();
-
-        public CarCollection()
-        {
-            Cars.Add(new Car
-            {
-                Make = "Mercedes",
-                Model = "280GE"
-            });
-            Cars.Add(new Car
-            {
-                Make = "Toyota",
-                Model = "Corolla"
-            });
-            Cars.Add(new Car
-            {
-                Make = "Nissan",
-                Model = "Micra"
-            });
-            Cars.Add(new Car
-            {
-                Make = "Mercedes",
-                Model = "280SE"
-            });
-            Cars.Add(new Car
-            {
-                Make = "Mercedes",
-                Model = "230SL"
-            });
-
-
-
-        }
-
-
-
-
-        IEnumerator<Car> IEnumerable<Car>.GetEnumerator()
-        {
-            return (IEnumerator<Car>)Cars.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Cars.GetEnumerator(); ;
-        }
-    }
-
-
-
-}
